@@ -32,8 +32,4 @@ object Euler15 {
       case (n,m) => array(n)(m) = 1 + (for (k <- 1 to m) yield paths(n - 1, k)).sum; array(n)(m)
     }
   }
-
-  def fakultaet(n: Int) = {
-    (1 to n).foldLeft(BigInt(1))((x: BigInt, y) => x * y)
-  }
 }

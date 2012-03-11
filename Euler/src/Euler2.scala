@@ -9,16 +9,8 @@ object Euler2 {
   }
   
   def fibsBelow4Million(x:Int) : List[Int] = {
-    val fib = fibonacci(x)
+    val fib = Basics.fibonacci(x)
     if(fib <= 4000000) fib :: fibsBelow4Million(x+1) 
     else Nil
-  }
-  
-  def fibonacci(x:Int) : Int = {
-    x match {
-      case 1 => 1
-      case 2 => 2
-      case n => fibonacci(n-1) + fibonacci(n-2)
-    }
   }
 }

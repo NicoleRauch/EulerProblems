@@ -7,7 +7,7 @@ object Euler27 {
     println(new Date().getTime() - time)
   }
 
-  val primes = Euler10.trueSieve(500000)
+  val primes = Basics.primesBelow(500000)
 
   def euler() = {
     // numberOfPrimes(0,1,41) == 40

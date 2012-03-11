@@ -5,7 +5,7 @@ object Euler35 {
   }
 
   def euler() = {
-    val primes = Euler10.trueSieve(999999)
+    val primes = Basics.primesBelow(999999)
 
     (for (p <- primes) yield if (isCircular(p, primes)) p else 0).filter(x => x > 0).size
   }

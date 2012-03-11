@@ -8,7 +8,7 @@ object Euler243 {
     println(new Date().getTime() - starttime)
   }
 
-  val primes = Euler10.trueSieve(9999999).toList
+  val primes = Basics.primesBelow(9999999).toList
   val results = new Array[Int](1000000)
 
   def euler() = {
@@ -53,36 +53,21 @@ object Euler243 {
 
   def firstDenominatorWithResilianceFractionLessThan(desired: Double) = {
     var d = 223092870
-    val factors = Basics.primefactors(d, primes)
-    val uniquefactors = unique(factors)
+    val uniquefactors = Basics.unique(Basics.primefactors(d, primes))
     while (resilienceCount(d, uniquefactors) >= (d - 1) * desired) {
       d = d * 2
     }
     d
   }
 
-  def resilienceCount(d: Long, f : List[Int]) = {
+  def resilienceCount(d: Long, factors : List[Int]) = {
       var count = 1
       var i = 2L
       while(i < d){
-        if (isResilientComparedTo(i, f)) count = count + 1
+        if (Basics.isNotDivisibleBy(i, factors)) count = count + 1
         i = i + 1
       }
       count
-  }
-
-  def unique(factors: List[Int]): List[Int] = {
-    factors match {
-      case f1 :: f2 :: fs => if (f1 == f2) unique(f2 :: fs) else f1 :: unique(f2 :: fs)
-      case x => x
-    }
-  }
-
-  def isResilientComparedTo(x: Long, factors: List[Int]): Boolean = {
-    factors match {
-      case Nil => true
-      case p :: ps => if (x % p == 0) false else isResilientComparedTo(x, ps)
-    }
   }
 
 }

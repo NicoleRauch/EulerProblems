@@ -1,5 +1,5 @@
 object Euler357 {
-	val primes = Euler10.trueSieve(50000000)
+	val primes = Basics.primesBelow(50000000)
 	println("Primzahlen sind berechnet")
 	
   def main(args: Array[String]) {
