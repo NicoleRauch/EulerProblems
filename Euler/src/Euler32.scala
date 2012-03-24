@@ -14,10 +14,7 @@ object Euler32 {
 
   def isPandigital(p1: Int, p2: Int, p3: Int) : Boolean = {
     val str = p1.toString() + p2.toString() + p3.toString()
-    is9Pandigital(str)
+    Basics.is9Pandigital(str)
   }
   
-  def is9Pandigital(str:String) : Boolean = {
-     str.length() == 9 && str.contains('1') && str.contains('2') && str.contains('3')  && str.contains('4') && str.contains('5') && str.contains('6') && str.contains('7') && str.contains('8') && str.contains('9')
-  }
 }

@@ -22,7 +22,7 @@ object Euler34 {
   def results(x: Int, max: Int): List[Int] = {
     if (x == max) Nil
     else {
-      val result = x.toString().toCharArray().map(x => x - 48).map(x => fac(x)).sum
+      val result = x.toString().toCharArray().map(Basics.char2Int).map(x => fac(x)).sum
       if (result == x) result :: results(x + 1, max) else results(x + 1, max)
     }
 

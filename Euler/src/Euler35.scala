@@ -10,7 +10,7 @@ object Euler35 {
     (for (p <- primes) yield if (isCircular(p, primes)) p else 0).filter(x => x > 0).size
   }
 
-  def isCircular(p: Int, primes: IndexedSeq[Int]) = {
+  def isCircular(p: Int, primes: List[Int]) = {
     val pstr = p.toString()
     if (pstr.length() == 1) {
       true

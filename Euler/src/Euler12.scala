@@ -12,8 +12,8 @@ object Euler12 {
 
   def euler() = {
     var x = 1
-    var divisorCount = 0.0
     var triangle = 1L
+    var divisorCount = 0.0
     while (divisorCount <= 500) {
       x = x + 1
       triangle = triangle + x

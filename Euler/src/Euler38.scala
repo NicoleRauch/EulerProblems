@@ -12,7 +12,7 @@ object Euler38 {
   
   def check(number:Int, prod:Int) = {
 	 val str = (for(i <- 1 to prod) yield (number * i).toString()).foldLeft ("") ((s,i) => s + i)
-	 if(Euler32.is9Pandigital(str))
+	 if(Basics.is9Pandigital(str))
 	   Integer.parseInt(str)
 	  else 0
   }

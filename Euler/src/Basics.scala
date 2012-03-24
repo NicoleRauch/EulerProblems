@@ -5,12 +5,15 @@ object Basics {
     for (i <- 1 to 12)
       print(fibonacci(i) + ", ")
     println("")
-    
-//    println(properDivisorsOf(220))
-//    println(properDivisorsOf(284))
+
+    //    println(properDivisorsOf(220))
+    //    println(properDivisorsOf(284))
   }
 
-  def primesBelow(max: Int) = {
+  def primesBelow(max: Int): List[Int] = {
+    if (max < 2) {
+      return Nil
+    }
     val primes = new Array[Boolean](max)
     primes(0) = false
     primes(1) = false
@@ -21,7 +24,7 @@ object Basics {
       if (i * j < max)
         primes(i * j) = false
     }
-    (for (i <- 2 to max - 1) yield if (primes(i)) i else 0).filter(x => x > 0)
+    (for (i <- 2 to max - 1) yield if (primes(i)) i else 0).filter(x => x > 0).toList
   }
 
   /* Primfaktorzerlegung ohne Liste von Primzahlen */
@@ -41,14 +44,14 @@ object Basics {
       else if (x % f == 0) f :: divisors(f + 1, x)
       else divisors(f + 1, x)
     }
-    if(x <= 0) Nil
+    if (x <= 0) Nil
     else divisors(1, x)
   }
 
-  def divisorsOf(x:Long) = {
-    properDivisorsOf(x) ++ (x::Nil)
+  def divisorsOf(x: Long) = {
+    properDivisorsOf(x) ++ (x :: Nil)
   }
-  
+
   /* Primfaktorzerlegung mit Liste von Primzahlen */
   def primefactors(x: Long, primes: List[Int]): List[Int] = {
     if (x < 2) Nil
@@ -58,11 +61,11 @@ object Basics {
       case Nil => Nil
     }
   }
-  
-  def triangle(x:Long) : Long = {
+
+  def triangle(x: Long): Long = {
     x match {
       case 1 => 1
-      case i => i + triangle(i-1)
+      case i => i + triangle(i - 1)
     }
   }
 
@@ -86,7 +89,7 @@ object Basics {
     }
   }
 
-    def unique(factors: List[Int]): List[Int] = {
+  def unique(factors: List[Int]): List[Int] = {
     factors match {
       case f1 :: f2 :: fs => if (f1 == f2) unique(f2 :: fs) else f1 :: unique(f2 :: fs)
       case x => x
@@ -100,5 +103,24 @@ object Basics {
     }
   }
 
+  def checkPalindrome(x: Int) = {
+    val s = x.toString()
+    s.reverse == s
+  }
+
+  def is9Pandigital(str: String): Boolean = {
+    str.length() == 9 && str.contains('1') && str.contains('2') && str.contains('3') && str.contains('4') && str.contains('5') && str.contains('6') && str.contains('7') && str.contains('8') && str.contains('9')
+  }
+  
+  def char2Int(ch:Char) = ch - 48
+  
+  def steigung (f : Double => Double, x1 : Double, x2 : Double) = ((f (x1)) - (f (x2))) / (x1 - x2)
+
+  def sekantenschritt (f : Double => Double, x1 : Double, x2 : Double) = x1 - (f (x1)) / (steigung (f, x1, x2))
+
+  def nullstelle( genauigkeit : Double, f : Double => Double, x1 : Double, x2 : Double) : Double = {
+          val erg = sekantenschritt( f, x1, x2)
+          if (Math.abs (f (erg)) < genauigkeit) erg else nullstelle (genauigkeit, f, x2, erg)
+  }
 
 }
