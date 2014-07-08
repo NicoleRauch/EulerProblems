@@ -29,8 +29,9 @@ object Basics {
 
   /* Primfaktorzerlegung ohne Liste von Primzahlen */
   def factorsOf(x: Long) = {
-    def factors(f: Int, x: Long): List[Int] = {
+    def factors(f: Long, x: Long): List[Long] = {
       if (x < 2) Nil
+      else if (f * f > x) x :: Nil
       else if (x % f == 0) f :: factors(f, x / f)
       else factors(f + 1, x)
     }
@@ -120,7 +121,8 @@ object Basics {
 
   def nullstelle( genauigkeit : Double, f : Double => Double, x1 : Double, x2 : Double) : Double = {
           val erg = sekantenschritt( f, x1, x2)
-          if (Math.abs (f (erg)) < genauigkeit) erg else nullstelle (genauigkeit, f, x2, erg)
+          // println(erg + " = f " + x1 + " " + x2)
+          if (erg.equals(Double.NaN) || Math.abs (f (erg)) < genauigkeit) erg else nullstelle (genauigkeit, f, x2, erg)
   }
 
 }

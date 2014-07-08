@@ -23,10 +23,23 @@ object Euler100 {
     // <==> (y - 1)/2 = w (wy - 1) = y w^2 - w
     // <==> y w^2 - w - (y - 1)/2 = 0
 
-    val y_min = 1000000000001L
-//        val y_min = 1000L
+    // und jetzt ohne die gro§en Zahlen:
+        // ((e + x) / (e + y)) * ((e + x-1) / (e + y-1)) = 1/2
+    // <==>
+    // 2 * (e + x) * (e + x-1) = (e + y) * (e + y-1)
 
-    pruefeAlleVonBis(y_min, 1000 * y_min)
+    // Sei x = w * y
+
+    // 2 * (e + wy) * (e + wy-1) = (e + y) * (e + y-1)
+	// <==> 2 * (e^2 + ewy + ewy - e + w^2y^2 - wy) = e^2 + ey + ey - e + y^2 - y
+	  // <==> 2e^2 + 2ewy + 2ewy - 2e + 2w^2y^2 - 2wy = e^2 + ey + ey - e + y^2 - y
+	  // <==> 2e^2 + 4ewy - 2e + 2w^2y^2 - 2wy = e^2 + 2ey - e + y^2 - y
+	  // <==> e^2 + 4ewy - e + 2w^2y^2 - 2wy - 2ey - y^2 + y = 0
+	  // <==> (2y^2) w^2 + (4e - 2) y w + (e^2 - 2ey - e - y^2 + y) = 0
+	  // <==> (2y^2) w^2 + (4e - 2) y w + (e^2 - e - 2ey - y^2 + y) = 0
+
+    
+    pruefeAlleVonBis(1, e12)
   }
 
   /*
@@ -41,29 +54,38 @@ brute force: 954913
 nullstelle: 159
    */
 
-  def wahrscheinlichkeit(anzahl_blaue: Long, gesamtzahlProdukt: Long) = {
+  val e12 = 1000000000000L
+  val faktor1 = 4 * e12 - 2
+  val summand1 = e12 * e12 - e12
+  
+
+
+  def wahrscheinlichkeitIstEinhalb(anzahl_blaue: Long, gesamtzahlProdukt: Long) = {
     2 * anzahl_blaue * (anzahl_blaue - 1) == gesamtzahlProdukt
   }
 
-  private def pruefeAlleVonBis(start: Long, end: Long): Unit = {
+  private def pruefeAlleVonBis(start: Long, end: Long) = {
     var aktuelleAnzahl = start
     while (aktuelleAnzahl < end) {
-      val naeherung = Basics.nullstelle(0.01, (x => aktuelleAnzahl * x * x - x - (aktuelleAnzahl - 1) / 2), 0.6666, 0.75) * aktuelleAnzahl
+//      println(aktuelleAnzahl)
+      val anzahlHoch2 = aktuelleAnzahl * aktuelleAnzahl
+      val naeherung = Basics.nullstelle(0.00001, (w => 2 * anzahlHoch2 * w * w + faktor1 * aktuelleAnzahl * w 
+          + summand1 - 2 * e12 * aktuelleAnzahl - anzahlHoch2 + aktuelleAnzahl), 0.6666, 0.75).intValue() * (aktuelleAnzahl + e12)
+          println(naeherung)
 
-      val anzahlProdukt = aktuelleAnzahl * (aktuelleAnzahl - 1)
-      
+      val produkt = (e12 + aktuelleAnzahl) * (e12 + aktuelleAnzahl - 1)
       // a * (a - 1) = a * a - a
       // (a+1) * (a+1-1) = (a+1) * a = a * a + a
 
-      pruefeUndGibAus(anzahlProdukt, naeherung.intValue())
-      pruefeUndGibAus(anzahlProdukt, naeherung.intValue() + 1)
+      pruefeUndGibAus(produkt, naeherung)
+      pruefeUndGibAus(produkt, naeherung + 1)
       aktuelleAnzahl = aktuelleAnzahl + 1
     }
   }
 
-  private def pruefeUndGibAus(gesamtzahlProdukt: Long, anzahl_blaue: Int): Unit = {
-    if (wahrscheinlichkeit(anzahl_blaue, gesamtzahlProdukt)) {
-      println(anzahl_blaue)
+  private def pruefeUndGibAus(gesamtzahlProdukt: Long, anzahl_blaue: Long): Unit = {
+    if (wahrscheinlichkeitIstEinhalb(anzahl_blaue, gesamtzahlProdukt)) {
+      println("Anzahl blaue Scheiben: " + anzahl_blaue)
     }
   }
 }

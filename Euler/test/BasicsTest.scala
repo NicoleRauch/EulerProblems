@@ -23,7 +23,7 @@ class BasicsTest extends FunSuite {
     }
   }
 
-  test("Die Liste aller Primfaktoren einer gegebenen Zahl (ohne vorgegebene Primzahlen)") {
+  test("Die Liste aller Primfaktoren einer gegebenen Zahl ohne vorgegebene Primzahlen") {
     expect(Nil) {
       Basics.factorsOf(1)
     }
@@ -39,9 +39,19 @@ class BasicsTest extends FunSuite {
     expect(List(2, 2, 5, 5)) {
       Basics.factorsOf(100)
     }
+    expect(List(2, 19, 992923)) {
+    	Basics.factorsOf(37731074)
+    }
+    expect(List(2, 3, 3, 3, 5, 7, 11, 13, 17, 23, 41)) {
+    	Basics.factorsOf(2*3*5*7*9*11*13*17*23*41L)
+    }
+    expect(List(Integer.MAX_VALUE)) {
+    	Basics.factorsOf(Integer.MAX_VALUE)
+    }
+    
   }
 
-  test("Die Liste aller Primfaktoren einer gegebenen Zahl (mit vorgegebenen Primzahlen)") {
+  test("Die Liste aller Primfaktoren einer gegebenen Zahl mit vorgegebenen Primzahlen") {
     val primes = Basics.primesBelow(100)
     expect(Nil) {
       Basics.primefactors(1, primes)
