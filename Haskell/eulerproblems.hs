@@ -2,6 +2,38 @@ module Main
 
 where
 
+-- Problem 1
+
+problem1 = sum $ filter (\ x -> (x `mod` 3 == 0) || (x `mod` 5 == 0)) [1..999]
+
+-- Problem 2
+
+fiblist :: [Int] -> [Int]
+fiblist [] = fiblist (1:1:[])
+fiblist [x] = fiblist (1:1:[])
+fiblist (x:y:xs)
+ | x + y < 4000000 = fiblist ((x+y):x:y:xs)
+ | otherwise = (x:y:xs)
+
+problem2 = sum $ filter (\ v -> v `mod` 2 == 0) $ fiblist []
+
+-- Lazy evaluation version:
+
+fibLazy :: Int -> Int -> [Int]
+fibLazy x y = x : (fibLazy y (x+y))
+
+fibEven :: [Int] -> [Int]
+fibEven = filter (\ v -> v `mod` 2 == 0)
+
+fibLimited :: Int -> [Int] -> [Int]
+fibLimited _ [] = []
+fibLimited n (x:xs)
+  | x >= n = []
+  | otherwise = x : (fibLimited n xs) 
+
+problem2Lazy = sum $ fibLimited 4000000 $ fibEven $ fibLazy 1 1
+
+
 -- Problem 16
 
 power2 0 = 1
@@ -81,20 +113,53 @@ powerN x 0 = 1
 powerN x n = x * powerN x (n-1)
 
 
+type Position = Int
+type Fib = Int
 
+continue :: (Position,Fib) -> (Position,Fib) -> Bool
+continue (t1,x) (t2,y) = x + y < 4000000
+-- continue (t1,x) (t2,y) = length (show (x+y)) < 1000
+
+fiblist :: [(Position,Fib)] -> [(Position,Fib)]
 fiblist [] = fiblist ((2,1):(1,1):[])
 fiblist [x] = fiblist ((2,1):(1,1):[])
-fiblist ((t1,x):(t2,y):xs) 
- | length (show (x+y)) < 1000 = fiblist ((t1+1, x+y):(t1, x):[])
- | otherwise = ((t1+1,x+y):(t1,x):[]) 
+fiblist ((t1,x):(t2,y):xs)
+ | continue (t1,x) (t2,y) = fiblist ((t1+1, x+y):(t1, x):(t2, y):xs)
+ | otherwise = ((t1,x):(t2, y):xs) 
 
 
 problem25 = fiblist []
 
--- Problem 67
+problem2 = sum $ map (\ (p,v) -> v) $ filter (\ (p,v) -> v `mod` 2 == 0) $ fiblist []
 
+-- Problem 3
 
+notDivisibleBy :: Int -> Int -> Bool
+notDivisibleBy p y = y `mod` p /= 0
 
+filterprimes :: [Int] -> [Int] 
+filterprimes [] = []
+filterprimes (p:xs) = p : (filterprimes (filter (notDivisibleBy p) xs))
 
+primes :: Int -> [Int]
+primes 0 = []
+primes 1 = []
+primes n = filterprimes [2..n]
 
-main = putStrLn (show problem18)
+factorise :: Int -> [Int] -> [Int]
+factorise num [] = []
+factorise num (factor:factors)
+  | num < factor = []
+  | num == factor = [factor]
+  | num `mod` factor == 0 = factor : (factorise (num `div` factor) (factor:factors))
+  | num < factor * factor = [num]
+  | otherwise = factorise num factors
+
+primefactors :: Int -> [Int]
+primefactors 0 = []
+primefactors 1 = []
+primefactors n = factorise n (primes n)
+
+problem3 = primefactors 600851475143
+
+main = putStrLn $ show problem3
