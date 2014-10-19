@@ -313,5 +313,26 @@ class BasicsTest extends FunSuite {
 	  }
     }
 
+    test("Fibonacci") {
+      expect(1) {
+        Basics.fibonacci2(1)(0)
+      }
+      expect(2) {
+    	  Basics.fibonacci2(2)(0)
+      }
+      expect(3) {
+    	  Basics.fibonacci2(3)(0)
+      }
+      expect(5) {
+    	  Basics.fibonacci2(4)(0)
+      }
+      expect(8) {
+    	  Basics.fibonacci2(5)(0)
+      }
+      expect(13) {
+    	  Basics.fibonacci2(6)(0)
+      }
+    }
+    
 }
 

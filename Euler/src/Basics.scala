@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 object Basics {
 
   def main(args: Array[String]) {
@@ -82,6 +83,18 @@ object Basics {
     (1 to n).foldLeft(1L)((x: Long, y) => x * y)
   }
 
+  def fibonacci2(x: Int): List[Int] = {
+    x match {
+      case 1 => List(1)
+      case 2 => List(2,1)
+      case n => 
+        fibonacci2(n-1) match {
+          case a::b::as => List(a+b, a)
+          case _ => List()
+        }
+    }
+  }
+  
   def fibonacci(x: Int): Int = {
     x match {
       case 1 => 1

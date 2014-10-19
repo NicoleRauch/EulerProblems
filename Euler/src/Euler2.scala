@@ -9,7 +9,7 @@ object Euler2 {
   }
   
   def fibsBelow4Million(x:Int) : List[Int] = {
-    val fib = Basics.fibonacci(x)
+    val fib = Basics.fibonacci2(x).head
     if(fib <= 4000000) fib :: fibsBelow4Million(x+1) 
     else Nil
   }
