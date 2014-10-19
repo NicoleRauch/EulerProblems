@@ -1,0 +1,5 @@
+.metadata
+Euler/bin
+*.o
+*.hi
+.cache
