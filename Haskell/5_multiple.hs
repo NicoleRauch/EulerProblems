@@ -12,8 +12,8 @@ multiple maxnum =
   in [x | x <- candidates, all (\i -> x `rem` i == 0) nonps]
 
 
-ffactors :: Int -> [Int]
-ffactors x = factors x primes
+multifactors :: Int -> [Int]
+multifactors x = factors x primes
   where
     factors x (p:ps)
       | x < p          = []
@@ -23,13 +23,8 @@ ffactors x = factors x primes
 
 filterFactors [] fs = fs
 filterFactors (x:xs) fs =
-  let
-    removeFrom [] newL = newL
-    removeFrom (o:os) newL
-      | elem o newL = removeFrom os (newL \\ [o])
-      | otherwise = removeFrom os newL
-    addUnique oldL newL = oldL ++ removeFrom oldL newL
-  in filterFactors [y | y <- xs, x `rem` y /= 0] $ addUnique fs (ffactors x)
+  let addUnique oldL newL = oldL ++ (newL \\ oldL)
+  in filterFactors [y | y <- xs, x `rem` y /= 0] $ addUnique fs (multifactors x)
 
 -- try a different strategy:
 multiple2 :: Int -> Int
